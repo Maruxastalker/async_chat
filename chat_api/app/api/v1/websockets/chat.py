@@ -77,6 +77,11 @@ async def websocket_chat(
             data: Dict[str, Any] = await websocket.receive_json()
 
             action = data.get("action")
+
+            if action == "ping":
+                await websocket.send_json({"event": "pong"})
+                continue
+
             if action == "send_message":
                 content = data.get("content")
                 message_type = data.get("message_type", "text")
